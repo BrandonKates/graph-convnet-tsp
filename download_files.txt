@@ -1,0 +1,5 @@
+Steps to Download Logs and Data:
+
+1. Download gdown (pip install gdown)
+2. Download TSP Datasets with: $gdown https://drive.google.com/uc?id=1-5W-S5e7CKsJ9uY9uVXIyxgbcZZNYBrp
+3. Download Pre-trained checkpoints with: $gdown https://drive.google.com/uc?id=1qmk1_5a8XT_hrOV_i3uHM9tMVnZBFEAF
