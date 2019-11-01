@@ -76,7 +76,7 @@ def beamsearch_tour_nodes(y_pred_edges, beam_size, batch_size, num_nodes, dtypeF
     # Perform beamsearch
     beamsearch = Beamsearch(beam_size, batch_size, num_nodes, dtypeFloat, dtypeLong, probs_type, random_start)
     trans_probs = y.gather(1, beamsearch.get_current_state())
-    for step in range(num_nodes - 1):
+    for step in range(num_nodes - 2):
         beamsearch.advance(trans_probs)
         trans_probs = y.gather(1, beamsearch.get_current_state())
     # Find TSP tour with highest probability among beam_size candidates
