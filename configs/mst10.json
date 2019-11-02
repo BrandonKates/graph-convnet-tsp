@@ -1,6 +1,6 @@
 {
-  "expt_name": "mst_10",
-  "gpu_id": "3",
+  "expt_name": "mst10",
+  "gpu_id": "0",
 
   "train_filepath": "./data/MST10_Euclidean_train.txt",
   "val_filepath": "./data/MST10_Euclidean_val.txt",
@@ -22,9 +22,9 @@
   "mlp_layers": 2,
   "aggregation": "mean",
 
-  "max_epochs": 500,
+  "max_epochs": 50,
   "val_every": 5,
-  "test_every": 50,
+  "test_every": 10,
 
   "batch_size": 20,
   "batches_per_epoch": 500,
