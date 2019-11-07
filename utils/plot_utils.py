@@ -63,17 +63,14 @@ def plot_tsp_heatmap(p, x_coord, W_val, W_pred, title="default"):
     
     """
 
-    def _edges_to_node_pairs(W):
+    def _edges_to_node_pairs(W, threshold = 0.25):
         """Helper function to convert edge matrix into pairs of adjacent nodes.
         """
-        pairs = []
-        edge_preds = []
-        for r in range(len(W)):
-            for c in range(len(W)):
-                if W[r][c] > 0.25:
-                    pairs.append((r, c))
-                    edge_preds.append(W[r][c])
-        return pairs, edge_preds
+        pairs = np.argwhere(W>threshold)
+        pairs = np.unique(sorted([tuple(sorted(pair)) for pair in pairs]), axis=0)
+        edge_preds = np.array([W[tuple(pair)] for pair in pairs])
+        argsrt = np.argsort(edge_preds)[::-1]
+        return pairs[argsrt].tolist()[0:12], edge_preds[argsrt].tolist()[0:12]
         
     G = nx.from_numpy_matrix(W_val)
     pos = dict(zip(range(len(x_coord)), x_coord.tolist()))
