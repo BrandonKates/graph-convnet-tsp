@@ -76,7 +76,7 @@ def beamsearch_tour_nodes(y_pred_edges, beam_size, batch_size, num_nodes, dtypeF
     # Perform beamsearch
     beamsearch = Beamsearch(beam_size, batch_size, num_nodes, dtypeFloat, dtypeLong, probs_type, random_start)
     trans_probs = y.gather(1, beamsearch.get_current_state())
-    for step in range(num_nodes - 2):
+    for step in range(num_nodes - 1):
         beamsearch.advance(trans_probs)
         trans_probs = y.gather(1, beamsearch.get_current_state())
     # Find TSP tour with highest probability among beam_size candidates
@@ -222,3 +222,16 @@ def _edge_error(y, y_target, mask):
     # Compute error
     err = 1.0 - acc
     return err, err_idx
+
+
+def Spanning_Error(Set_of_predicted_graphs):
+    #returns the percent of the set of predicted graphs that are connected
+    Binary_Connected = [ nx.is_connected(x) for x in Set_of_predicted_graphs ]
+    return sum(Binary_Connected)/len(Set_of_predicted_graphs)
+
+def Spanning_Difference(Set_of_predicted_graphs, Set_of_MST_graphs):
+    #returns the mean difference in cost between the predicted and true mst
+    
+    G.size(weight='weight')
+    Spanning_Difference= [Set_of_predicted_graphs[i].size(weight='weight')- Set_of_MST_graphs[i].size(weight='weight') for i in range(len(Set_of_predicted_graphs))]
+    return sum(Spanning_Difference)/len(Spanning_Difference)
