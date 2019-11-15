@@ -2,7 +2,7 @@ import torch
 import torch.nn.functional as F
 import torch.nn as nn
 
-from utils.beamsearch import *
+from utils.beamsearch_mst import *
 from utils.graph_utils import *
 
 
@@ -46,12 +46,12 @@ def loss_edges(y_pred_edges, y_edges, edge_cw):
     return loss_edges
 
 
-def beamsearch_tour_nodes(y_pred_edges, beam_size, batch_size, num_nodes, dtypeFloat, dtypeLong, probs_type='raw', random_start=False):
+def beamsearch_tour_nodes(y_pred_edges, beam_size, batch_size, num_edges, dtypeFloat, dtypeLong, probs_type='raw', random_start=True):
     """
     Performs beamsearch procedure on edge prediction matrices and returns possible TSP tours.
 
     Args:
-        y_pred_edges: Predictions for edges (batch_size, num_nodes, num_nodes)
+        y_pred_edges: Predictions for edges (batch_size, num_edges)
         beam_size: Beam size
         batch_size: Batch size
         num_nodes: Number of nodes in TSP tours
@@ -59,24 +59,30 @@ def beamsearch_tour_nodes(y_pred_edges, beam_size, batch_size, num_nodes, dtypeF
         dtypeLong: Long data type (for GPU/CPU compatibility)
         random_start: Flag for using fixed (at node 0) vs. random starting points for beamsearch
 
-    Returns: TSP tours in terms of node ordering (batch_size, num_nodes)
+    Returns: TSP tours in terms of node ordering (batch_size, num_nodes-1)
 
     """
+    '''
     if probs_type == 'raw':
         # Compute softmax over edge prediction matrix
         y = F.softmax(y_pred_edges, dim=3)  # B x V x V x voc_edges
         # Consider the second dimension only
-        y = y[:, :, :, 1]  # B x V x V
+        y = y[:, :, :, 1]  # B x V
     elif probs_type == 'logits':
         # Compute logits over edge prediction matrix
         y = F.log_softmax(y_pred_edges, dim=3)  # B x V x V x voc_edges
         # Consider the second dimension only
-        y = y[:, :, :, 1]  # B x V x V
+        y = y[:, :, :, 1]  # B x V
         y[y == 0] = -1e-20  # Set 0s (i.e. log(1)s) to very small negative number
+    '''
+    y = y_pred_edges
     # Perform beamsearch
-    beamsearch = Beamsearch(beam_size, batch_size, num_nodes, dtypeFloat, dtypeLong, probs_type, random_start)
+    beamsearch = Beamsearch(beam_size, batch_size, num_edges, dtypeFloat, dtypeLong, probs_type, random_start)
+    print("Current State: ", beamsearch.get_current_state().shape, beamsearch.get_current_state())
+    print("Y: ", y.shape,y)
     trans_probs = y.gather(1, beamsearch.get_current_state())
-    for step in range(num_nodes - 1):
+    print("Trans_probs: ", trans_probs)
+    for step in range(9):
         beamsearch.advance(trans_probs)
         trans_probs = y.gather(1, beamsearch.get_current_state())
     # Find TSP tour with highest probability among beam_size candidates
@@ -121,7 +127,7 @@ def beamsearch_tour_nodes_shortest(y_pred_edges, x_edges_values, beam_size, batc
     # Perform beamsearch
     beamsearch = Beamsearch(beam_size, batch_size, num_nodes, dtypeFloat, dtypeLong, probs_type, random_start)
     trans_probs = y.gather(1, beamsearch.get_current_state())
-    for step in range(num_nodes - 1):
+    for step in range(9):
         beamsearch.advance(trans_probs)
         trans_probs = y.gather(1, beamsearch.get_current_state())
     # Initially assign shortest_tours as most probable tours i.e. standard beamsearch
