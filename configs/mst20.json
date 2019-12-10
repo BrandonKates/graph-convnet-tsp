@@ -6,7 +6,7 @@
   "val_filepath": "./data/MST20_Euclidean_val.txt",
   "test_filepath": "./data/MST20_Euclidean_test.txt",
 
-  "num_nodes": 10,
+  "num_nodes": 20,
   "num_neighbors": -1,
     
   "node_dim": 2,

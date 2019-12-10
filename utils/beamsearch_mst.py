@@ -65,8 +65,8 @@ class Beamsearch(object):
             trans_probs: Probabilities of advancing from the previous step (batch_size, beam_size, num_edges)
         """
         # Compound the previous scores (summing logits == multiplying probabilities)
-        print("MASK in advance: ", self.mask)
-        print("Trans_probs in advance: ", trans_probs)
+        #print("MASK in advance: ", self.mask)
+        #print("Trans_probs in advance: ", trans_probs)
         if len(self.prev_Ks) > 0:
             if self.probs_type == 'raw':
                 beam_lk = trans_probs * self.scores.unsqueeze(2).expand_as(trans_probs)
@@ -83,7 +83,7 @@ class Beamsearch(object):
         beam_lk = beam_lk * self.mask
         beam_lk = beam_lk.view(self.batch_size, -1)  # (batch_size, beam_size * num_nodes)
         # Get top k scores and indexes (k = beam_size)
-        bestScores, bestScoresId = beam_lk.topk(self.beam_size, 1, True, True)
+        bestScores, bestScoresId = beam_lk.topk(self.beam_size, 1, True, True) if np.random.rand() < 0.95 else    torch.Tensor()
         # Update scores
         self.scores = bestScores
         # Update backpointers
