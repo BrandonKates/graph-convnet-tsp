@@ -1,0 +1,174 @@
+Loaded configs/mst20.json:
+{'expt_name': 'mst20', 'gpu_id': '0', 'train_filepath': './data/MST20_Euclidean_train.txt', 'val_filepath': './data/MST20_Euclidean_val.txt', 'test_filepath': './data/MST20_Euclidean_test.txt', 'num_nodes': 10, 'num_neighbors': -1, 'node_dim': 2, 'voc_nodes_in': 2, 'voc_nodes_out': 2, 'voc_edges_in': 3, 'voc_edges_out': 2, 'beam_size': 1, 'hidden_dim': 50, 'num_layers': 3, 'mlp_layers': 2, 'aggregation': 'mean', 'max_epochs': 100, 'val_every': 10, 'test_every': 25, 'batch_size': 20, 'batches_per_epoch': 500, 'accumulation_steps': 1, 'learning_rate': 0.001, 'decay_rate': 1.01}
+CUDA available, using GPU ID 0
+DataParallel(
+  (module): ResidualGatedGCNModel(
+    (nodes_coord_embedding): Linear(in_features=2, out_features=50, bias=False)
+    (edges_values_embedding): Linear(in_features=1, out_features=25, bias=False)
+    (edges_embedding): Embedding(3, 25)
+    (gcn_layers): ModuleList(
+      (0): ResidualGatedGCNLayer(
+        (node_feat): NodeFeatures(
+          (U): Linear(in_features=50, out_features=50, bias=True)
+          (V): Linear(in_features=50, out_features=50, bias=True)
+        )
+        (edge_feat): EdgeFeatures(
+          (U): Linear(in_features=50, out_features=50, bias=True)
+          (V): Linear(in_features=50, out_features=50, bias=True)
+        )
+        (bn_node): BatchNormNode(
+          (batch_norm): BatchNorm1d(50, eps=1e-05, momentum=0.1, affine=True, track_running_stats=False)
+        )
+        (bn_edge): BatchNormEdge(
+          (batch_norm): BatchNorm2d(50, eps=1e-05, momentum=0.1, affine=True, track_running_stats=False)
+        )
+      )
+      (1): ResidualGatedGCNLayer(
+        (node_feat): NodeFeatures(
+          (U): Linear(in_features=50, out_features=50, bias=True)
+          (V): Linear(in_features=50, out_features=50, bias=True)
+        )
+        (edge_feat): EdgeFeatures(
+          (U): Linear(in_features=50, out_features=50, bias=True)
+          (V): Linear(in_features=50, out_features=50, bias=True)
+        )
+        (bn_node): BatchNormNode(
+          (batch_norm): BatchNorm1d(50, eps=1e-05, momentum=0.1, affine=True, track_running_stats=False)
+        )
+        (bn_edge): BatchNormEdge(
+          (batch_norm): BatchNorm2d(50, eps=1e-05, momentum=0.1, affine=True, track_running_stats=False)
+        )
+      )
+      (2): ResidualGatedGCNLayer(
+        (node_feat): NodeFeatures(
+          (U): Linear(in_features=50, out_features=50, bias=True)
+          (V): Linear(in_features=50, out_features=50, bias=True)
+        )
+        (edge_feat): EdgeFeatures(
+          (U): Linear(in_features=50, out_features=50, bias=True)
+          (V): Linear(in_features=50, out_features=50, bias=True)
+        )
+        (bn_node): BatchNormNode(
+          (batch_norm): BatchNorm1d(50, eps=1e-05, momentum=0.1, affine=True, track_running_stats=False)
+        )
+        (bn_edge): BatchNormEdge(
+          (batch_norm): BatchNorm2d(50, eps=1e-05, momentum=0.1, affine=True, track_running_stats=False)
+        )
+      )
+    )
+    (mlp_edges): MLP(
+      (U): ModuleList(
+        (0): Linear(in_features=50, out_features=50, bias=True)
+      )
+      (V): Linear(in_features=50, out_features=2, bias=True)
+    )
+  )
+)
+Number of parameters: 34052
+Adam (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    eps: 1e-08
+    lr: 0.001
+    weight_decay: 0
+)
+Traceback (most recent call last):
+  File "main_mst.py", line 616, in <module>
+    net = main(config)
+  File "main_mst.py", line 549, in main
+    train_time, train_loss, train_err_edges, train_err_tour, train_err_tsp, train_pred_tour_len, train_gt_tour_len = train_one_epoch(net, optimizer, config, epoch_bar)
+  File "main_mst.py", line 278, in train_one_epoch
+    batch = next(dataset)
+  File "/home/jupyter/ORIE-GNN-bjk224/graph-convnet-tsp/utils/mst_reader.py", line 41, in __iter__
+    yield self.process_batch(self.filedata[start_idx:end_idx])
+  File "/home/jupyter/ORIE-GNN-bjk224/graph-convnet-tsp/utils/mst_reader.py", line 94, in process_batch
+    edges_target[i][j] = 1
+IndexError: index 12 is out of bounds for axis 0 with size 10
+Loaded configs/mst20.json:
+{'expt_name': 'mst20', 'gpu_id': '0', 'train_filepath': './data/MST20_Euclidean_train.txt', 'val_filepath': './data/MST20_Euclidean_val.txt', 'test_filepath': './data/MST20_Euclidean_test.txt', 'num_nodes': 10, 'num_neighbors': -1, 'node_dim': 2, 'voc_nodes_in': 2, 'voc_nodes_out': 2, 'voc_edges_in': 3, 'voc_edges_out': 2, 'beam_size': 1, 'hidden_dim': 50, 'num_layers': 3, 'mlp_layers': 2, 'aggregation': 'mean', 'max_epochs': 100, 'val_every': 10, 'test_every': 25, 'batch_size': 20, 'batches_per_epoch': 500, 'accumulation_steps': 1, 'learning_rate': 0.001, 'decay_rate': 1.01}
+CUDA available, using GPU ID 0
+DataParallel(
+  (module): ResidualGatedGCNModel(
+    (nodes_coord_embedding): Linear(in_features=2, out_features=50, bias=False)
+    (edges_values_embedding): Linear(in_features=1, out_features=25, bias=False)
+    (edges_embedding): Embedding(3, 25)
+    (gcn_layers): ModuleList(
+      (0): ResidualGatedGCNLayer(
+        (node_feat): NodeFeatures(
+          (U): Linear(in_features=50, out_features=50, bias=True)
+          (V): Linear(in_features=50, out_features=50, bias=True)
+        )
+        (edge_feat): EdgeFeatures(
+          (U): Linear(in_features=50, out_features=50, bias=True)
+          (V): Linear(in_features=50, out_features=50, bias=True)
+        )
+        (bn_node): BatchNormNode(
+          (batch_norm): BatchNorm1d(50, eps=1e-05, momentum=0.1, affine=True, track_running_stats=False)
+        )
+        (bn_edge): BatchNormEdge(
+          (batch_norm): BatchNorm2d(50, eps=1e-05, momentum=0.1, affine=True, track_running_stats=False)
+        )
+      )
+      (1): ResidualGatedGCNLayer(
+        (node_feat): NodeFeatures(
+          (U): Linear(in_features=50, out_features=50, bias=True)
+          (V): Linear(in_features=50, out_features=50, bias=True)
+        )
+        (edge_feat): EdgeFeatures(
+          (U): Linear(in_features=50, out_features=50, bias=True)
+          (V): Linear(in_features=50, out_features=50, bias=True)
+        )
+        (bn_node): BatchNormNode(
+          (batch_norm): BatchNorm1d(50, eps=1e-05, momentum=0.1, affine=True, track_running_stats=False)
+        )
+        (bn_edge): BatchNormEdge(
+          (batch_norm): BatchNorm2d(50, eps=1e-05, momentum=0.1, affine=True, track_running_stats=False)
+        )
+      )
+      (2): ResidualGatedGCNLayer(
+        (node_feat): NodeFeatures(
+          (U): Linear(in_features=50, out_features=50, bias=True)
+          (V): Linear(in_features=50, out_features=50, bias=True)
+        )
+        (edge_feat): EdgeFeatures(
+          (U): Linear(in_features=50, out_features=50, bias=True)
+          (V): Linear(in_features=50, out_features=50, bias=True)
+        )
+        (bn_node): BatchNormNode(
+          (batch_norm): BatchNorm1d(50, eps=1e-05, momentum=0.1, affine=True, track_running_stats=False)
+        )
+        (bn_edge): BatchNormEdge(
+          (batch_norm): BatchNorm2d(50, eps=1e-05, momentum=0.1, affine=True, track_running_stats=False)
+        )
+      )
+    )
+    (mlp_edges): MLP(
+      (U): ModuleList(
+        (0): Linear(in_features=50, out_features=50, bias=True)
+      )
+      (V): Linear(in_features=50, out_features=2, bias=True)
+    )
+  )
+)
+Number of parameters: 34052
+Adam (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    eps: 1e-08
+    lr: 0.001
+    weight_decay: 0
+)
+Traceback (most recent call last):
+  File "main_mst.py", line 616, in <module>
+    net = main(config)
+  File "main_mst.py", line 549, in main
+    train_time, train_loss, train_err_edges, train_err_tour, train_err_tsp, train_pred_tour_len, train_gt_tour_len = train_one_epoch(net, optimizer, config, epoch_bar)
+  File "main_mst.py", line 278, in train_one_epoch
+    batch = next(dataset)
+  File "/home/jupyter/ORIE-GNN-bjk224/graph-convnet-tsp/utils/mst_reader.py", line 41, in __iter__
+    yield self.process_batch(self.filedata[start_idx:end_idx])
+  File "/home/jupyter/ORIE-GNN-bjk224/graph-convnet-tsp/utils/mst_reader.py", line 94, in process_batch
+    edges_target[i][j] = 1
+IndexError: index 17 is out of bounds for axis 0 with size 10
