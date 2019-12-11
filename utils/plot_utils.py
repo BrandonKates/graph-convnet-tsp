@@ -63,18 +63,19 @@ def plot_tsp_heatmap(p, x_coord, W_val, W_pred, title="default"):
     
     """
 
-    def _edges_to_node_pairs(W, threshold = 0.25):
+    def _edges_to_node_pairs(W, threshold = 0.125):
         """Helper function to convert edge matrix into pairs of adjacent nodes.
         """
         pairs = np.argwhere(W>threshold)
         pairs = np.unique(sorted([tuple(sorted(pair)) for pair in pairs]), axis=0)
         edge_preds = np.array([W[tuple(pair)] for pair in pairs])
         argsrt = np.argsort(edge_preds)[::-1]
-        return pairs[argsrt].tolist()[0:12], edge_preds[argsrt].tolist()[0:12]
+        return pairs[argsrt].tolist(), edge_preds[argsrt].tolist()
         
     G = nx.from_numpy_matrix(W_val)
     pos = dict(zip(range(len(x_coord)), x_coord.tolist()))
     node_pairs, edge_color = _edges_to_node_pairs(W_pred)
+    print("Node Pairs: ", len(node_pairs), node_pairs)
     node_color = ['b'] * (len(x_coord))  # Green for 0th node, blue for others
     nx.draw_networkx_nodes(G, pos, node_color=node_color, node_size=50)
     nx.draw_networkx_edges(G, pos, edgelist=node_pairs, edge_color=edge_color, edge_cmap=plt.cm.Reds, width=0.75)
